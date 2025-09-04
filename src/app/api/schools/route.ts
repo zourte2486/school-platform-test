@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { ResultSetHeader } from 'mysql2/promise';
+import { uploadImageToCloudinary } from '@/lib/cloudinary';
 
 // GET: Fetch all schools
 export async function GET() {
-  try {
-    const connection = await pool.getConnection();
+  try {    const connection = await pool.getConnection();
     const [rows] = await connection.execute('SELECT * FROM schools ORDER BY created_at DESC');
     connection.release();
     
@@ -44,16 +44,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For now, just use a placeholder image URL
-    const filename = `https://placehold.co/600x400?text=${encodeURIComponent(name)}`;
+    // Image validation
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (!allowedTypes.includes(imageFile.type)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid image type. Only JPEG, PNG, and WebP are allowed.' },
+        { status: 400 }
+      );
+    }
+
+    if (imageFile.size > maxSize) {
+      return NextResponse.json(
+        { success: false, error: 'Image size too large. Maximum size is 5MB.' },
+        { status: 400 }
+      );
+    }
+
+    // Handle image upload to Cloudinary
+    const bytes = await imageFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    
+    // Upload to Cloudinary
+    const uploadResult = await uploadImageToCloudinary(buffer, 'school-platform');
+    const imageUrl = uploadResult.secure_url;
     
     // Save to database
     connection = await pool.getConnection();
-    console.log('Executing SQL query with values:', [name, address, city, state, contact, filename, email_id]);
+    console.log('Executing SQL query with values:', [name, address, city, state, contact, imageUrl, email_id]);
     
     const [queryResult] = await connection.execute<ResultSetHeader>(
       'INSERT INTO schools (name, adress, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [name, address, city, state, contact, filename, email_id]
+      [name, address, city, state, contact, imageUrl, email_id]
     );
     
     console.log('Database insert successful:', queryResult);
@@ -61,7 +84,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       message: 'School added successfully',
-      data: { id: queryResult.insertId, image: filename }
+      data: { id: queryResult.insertId, image: imageUrl }
     });
     
   } catch (error) {
