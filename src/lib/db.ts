@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 
-// Railway connection configuration with performance optimizations
+// Railway connection configuration
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -8,18 +8,10 @@ const dbConfig = {
   database: process.env.DB_NAME || 'school_platform',
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
   waitForConnections: true,
-  connectionLimit: 20, // Increased for better performance
+  connectionLimit: 20,
   queueLimit: 0,
-  acquireTimeout: 60000, // 60 seconds
-  timeout: 60000, // 60 seconds
-  reconnect: true,
   // Add SSL configuration for Railway
-  ssl: process.env.DB_HOST?.includes('railway') ? { rejectUnauthorized: false } : false,
-  // Performance optimizations
-  multipleStatements: false,
-  dateStrings: true,
-  supportBigNumbers: true,
-  bigNumberStrings: true,
+  ssl: process.env.DB_HOST?.includes('railway') ? { rejectUnauthorized: false } : undefined,
 };
 
 const pool = mysql.createPool(dbConfig);
