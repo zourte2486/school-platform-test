@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { ResultSetHeader } from 'mysql2/promise';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
 
 // GET: Fetch all schools
 export async function GET() {
@@ -46,21 +44,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Handle image upload
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    
-    // Create schoolImages directory if it doesn't exist
-    const uploadDir = join(process.cwd(), 'public', 'schoolImages');
-    await mkdir(uploadDir, { recursive: true });
-    
-    // Generate unique filename
-    const timestamp = Date.now();
-    const filename = `${timestamp}_${imageFile.name}`;
-    const filepath = join(uploadDir, filename);
-    
-    // Save image
-    await writeFile(filepath, buffer);
+    // For now, just use a placeholder image URL
+    const filename = `https://placehold.co/600x400?text=${encodeURIComponent(name)}`;
     
     // Save to database
     connection = await pool.getConnection();

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface School {
   id: number;
@@ -131,12 +130,10 @@ export default function ShowSchools() {
               >
                 <div className="relative h-48 bg-gray-200">
                   {school.image ? (
-                    <Image
-                      src={`/schoolImages/${school.image}`}
+                    <img
+                      src={school.image}
                       alt={school.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full text-gray-400">
