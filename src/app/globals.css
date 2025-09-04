@@ -41,6 +41,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Performance optimizations */
+* {
+  will-change: auto;
+}
+
+.hover-lift {
+  will-change: transform;
+}
+
+.animate-float,
+.animate-fade-in,
+.animate-slide-up {
+  will-change: transform, opacity;
+}
+
+/* Optimize images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Professional Animations */
 @keyframes fade-in {
   from {

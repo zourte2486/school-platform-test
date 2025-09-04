@@ -1,6 +1,19 @@
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [navigatingTo, setNavigatingTo] = useState('');
+
+  const handleNavigation = (path: string) => {
+    setIsNavigating(true);
+    setNavigatingTo(path);
+    // Reset after navigation
+    setTimeout(() => {
+      setIsNavigating(false);
+      setNavigatingTo('');
+    }, 2000);
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Hero Section */}
@@ -26,26 +39,46 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <Link
                 href="/addSchool"
-                className="btn-primary text-lg px-8 py-4 hover-lift group"
+                onClick={() => handleNavigation('/addSchool')}
+                className={`btn-primary text-lg px-8 py-4 hover-lift group ${isNavigating && navigatingTo === '/addSchool' ? 'opacity-75 cursor-not-allowed' : ''}`}
               >
                 <span className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Add New School
+                  {isNavigating && navigatingTo === '/addSchool' ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      Add New School
+                    </>
+                  )}
                 </span>
               </Link>
               
               <Link
                 href="/showSchools"
-                className="btn-secondary text-lg px-8 py-4 hover-lift group"
+                onClick={() => handleNavigation('/showSchools')}
+                className={`btn-secondary text-lg px-8 py-4 hover-lift group ${isNavigating && navigatingTo === '/showSchools' ? 'opacity-75 cursor-not-allowed' : ''}`}
               >
                 <span className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  View All Schools
+                  {isNavigating && navigatingTo === '/showSchools' ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      View All Schools
+                    </>
+                  )}
                 </span>
               </Link>
             </div>
@@ -159,15 +192,31 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/addSchool"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition-all duration-200 hover-lift"
+              onClick={() => handleNavigation('/addSchool')}
+              className={`bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition-all duration-200 hover-lift ${isNavigating && navigatingTo === '/addSchool' ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
-              Start Adding Schools
+              {isNavigating && navigatingTo === '/addSchool' ? (
+                <span className="flex items-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
+                  Loading...
+                </span>
+              ) : (
+                'Start Adding Schools'
+              )}
             </Link>
             <Link
               href="/showSchools"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200 hover-lift"
+              onClick={() => handleNavigation('/showSchools')}
+              className={`border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200 hover-lift ${isNavigating && navigatingTo === '/showSchools' ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
-              View Existing Schools
+              {isNavigating && navigatingTo === '/showSchools' ? (
+                <span className="flex items-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Loading...
+                </span>
+              ) : (
+                'View Existing Schools'
+              )}
             </Link>
           </div>
         </div>

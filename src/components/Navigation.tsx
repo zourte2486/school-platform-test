@@ -17,7 +17,8 @@ export default function Navigation() {
       setIsNavigating(true);
       setIsMobileMenuOpen(false);
       router.push(path);
-      setTimeout(() => setIsNavigating(false), 1000);
+      // Reset navigation state after navigation completes
+      setTimeout(() => setIsNavigating(false), 1500);
     }
   };
 
