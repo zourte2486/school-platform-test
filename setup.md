@@ -1,6 +1,7 @@
 # Quick Setup Guide
 
 ## Environment Variables
+
 Create a `.env.local` file in the root directory with:
 
 ```env
@@ -11,7 +12,9 @@ DB_NAME=school_platform
 ```
 
 ## Database Setup
+
 1. Create MySQL database:
+
 ```sql
 CREATE DATABASE school_platform;
 USE school_platform;
@@ -20,6 +23,7 @@ USE school_platform;
 2. Run the SQL commands from `database.sql` file
 
 ## Run the Application
+
 ```bash
 npm install
 npm run dev
