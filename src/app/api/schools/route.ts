@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     // Save to database
     const connection = await pool.getConnection();
     const [result] = await connection.execute(
-      'INSERT INTO schools (name, address, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO schools (name, adress, city, state, contact, image, email_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [name, address, city, state, parseInt(contact), filename, email_id]
     );
     connection.release();

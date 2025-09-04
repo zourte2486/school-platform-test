@@ -67,14 +67,18 @@ export default function AddSchool() {
       const result = await response.json();
 
       if (result.success) {
-        setSubmitMessage('School added successfully!');
+        setSubmitMessage('🎉 School added successfully! Redirecting to view schools...');
         reset();
         setImagePreview('');
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/showSchools';
+        }, 2000);
       } else {
-        setSubmitMessage(`Error: ${result.error}`);
+        setSubmitMessage(`❌ Error: ${result.error}`);
       }
     } catch {
-      setSubmitMessage('Error: Failed to add school');
+      setSubmitMessage('❌ Error: Failed to add school. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -95,12 +99,34 @@ export default function AddSchool() {
           </div>
 
           {submitMessage && (
-            <div className={`mb-6 p-4 rounded-lg ${
+            <div className={`mb-6 p-4 rounded-lg animate-fade-in ${
               submitMessage.includes('Error') 
                 ? 'bg-red-100 text-red-700 border border-red-300' 
                 : 'bg-green-100 text-green-700 border border-green-300'
             }`}>
-              {submitMessage}
+              <div className="flex items-center">
+                {submitMessage.includes('Error') ? (
+                  <div className="text-red-500 mr-2">❌</div>
+                ) : (
+                  <div className="text-green-500 mr-2">✅</div>
+                )}
+                <span>{submitMessage}</span>
+              </div>
+            </div>
+          )}
+
+          {isSubmitting && (
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                <div>
+                  <p className="text-blue-800 font-medium">Processing your request...</p>
+                  <p className="text-blue-600 text-sm">Please wait while we add your school to the database.</p>
+                </div>
+              </div>
+              <div className="mt-3 bg-blue-200 rounded-full h-2">
+                <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{width: '60%'}}></div>
+              </div>
             </div>
           )}
 
@@ -240,9 +266,16 @@ export default function AddSchool() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:transform-none"
               >
-                {isSubmitting ? 'Adding School...' : 'Add School'}
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    <span>Adding School...</span>
+                  </div>
+                ) : (
+                  <span>Add School</span>
+                )}
               </button>
             </div>
           </form>

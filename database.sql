@@ -7,7 +7,7 @@ USE school_platform;
 CREATE TABLE IF NOT EXISTS schools (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name TEXT NOT NULL,
-    address TEXT NOT NULL,
+    adress TEXT NOT NULL,
     city TEXT NOT NULL,
     state TEXT NOT NULL,
     contact BIGINT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS schools (
 INSERT INTO
     schools (
         name,
-        address,
+        adress,
         city,
         state,
         contact,

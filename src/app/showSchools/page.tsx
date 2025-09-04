@@ -7,7 +7,7 @@ import Image from 'next/image';
 interface School {
   id: number;
   name: string;
-  address: string;
+  adress: string; // Note: matches database column name
   city: string;
   state: string;
   contact: number;
@@ -45,10 +45,36 @@ export default function ShowSchools() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading schools...</p>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-8">
+            <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
+            <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-lg shadow-lg overflow-hidden animate-pulse">
+                <div className="h-48 bg-gray-200"></div>
+                <div className="p-6">
+                  <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="mt-4 pt-4 border-t border-gray-100">
+                    <div className="h-4 bg-gray-200 rounded mb-1"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-8">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-lg">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+              <span className="text-blue-600 font-medium">Loading schools...</span>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -97,10 +123,11 @@ export default function ShowSchools() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {schools.map((school) => (
+            {schools.map((school, index) => (
               <div 
                 key={school.id} 
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative h-48 bg-gray-200">
                   {school.image ? (
@@ -126,7 +153,7 @@ export default function ShowSchools() {
                   <div className="space-y-2 text-sm text-gray-600">
                     <div className="flex items-start">
                       <span className="text-gray-400 mr-2">📍</span>
-                      <p className="line-clamp-2">{school.address}</p>
+                      <p className="line-clamp-2">{school.adress}</p>
                     </div>
                     
                     <div className="flex items-center">

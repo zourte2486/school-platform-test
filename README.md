@@ -41,13 +41,20 @@ A comprehensive Next.js application for managing school information with image u
    ```
 
 3. **Set up environment variables**
-   Create a `.env.local` file in the root directory:
+   Copy `env.example` to `.env.local` and update with your database credentials:
+
+   ```bash
+   cp env.example .env.local
+   ```
+
+   Then edit `.env.local` with your actual database details:
 
    ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=your_password
-   DB_NAME=school_platform
+   DB_HOST=your-database-host
+   DB_USER=your-database-user
+   DB_PASSWORD=your-database-password
+   DB_NAME=your-database-name
+   DB_PORT=3306
    ```
 
 4. **Set up MySQL database**
@@ -74,9 +81,9 @@ A comprehensive Next.js application for managing school information with image u
 
 5. **Run the development server**
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
