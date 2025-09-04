@@ -10,8 +10,7 @@ const dbConfig: PoolOptions = {
   waitForConnections: true,
   connectionLimit: 20, // Increased for better performance
   queueLimit: 0,
-  acquireTimeout: 60000, // 60 seconds
-  timeout: 60000, // 60 seconds
+  connectTimeout: 60000, // ✅ correct property
   // Performance optimizations
   multipleStatements: false,
   dateStrings: true,
