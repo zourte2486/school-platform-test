@@ -99,3 +99,63 @@ export async function POST(request: NextRequest) {
     }
   }
 }
+
+// DELETE: Delete a school
+export async function DELETE(request: NextRequest) {
+  let connection;
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'School ID is required' },
+        { status: 400 }
+      );
+    }
+
+    connection = await pool.getConnection();
+    
+    // First, get the school data to check if it exists
+    const [schoolRows] = await connection.execute(
+      'SELECT * FROM schools WHERE id = ?',
+      [id]
+    );
+    
+    if (!Array.isArray(schoolRows) || schoolRows.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'School not found' },
+        { status: 404 }
+      );
+    }
+    
+    // Delete the school from database
+    const [result] = await connection.execute<ResultSetHeader>(
+      'DELETE FROM schools WHERE id = ?',
+      [id]
+    );
+    
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Failed to delete school' },
+        { status: 500 }
+      );
+    }
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: 'School deleted successfully' 
+    });
+    
+  } catch (error) {
+    console.error('Error deleting school:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to delete school: ' + (error instanceof Error ? error.message : 'Unknown error') },
+      { status: 500 }
+    );
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}
