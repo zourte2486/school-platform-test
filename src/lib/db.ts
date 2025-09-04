@@ -8,10 +8,9 @@ const dbConfig: PoolOptions = {
   database: process.env.DB_NAME || 'school_platform',
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
   waitForConnections: true,
-  connectionLimit: 20, // Increased for better performance
+  connectionLimit: 20,
   queueLimit: 0,
-  connectTimeout: 60000, // ✅ correct property
-  // Performance optimizations
+  connectTimeout: 60000, // ✅ correct option
   multipleStatements: false,
   dateStrings: true,
   supportBigNumbers: true,
@@ -19,7 +18,7 @@ const dbConfig: PoolOptions = {
 };
 
 // ✅ Only add SSL if Railway is detected
-if (process.env.DB_HOST?.includes('railway')) {
+if (process.env.DB_HOST && process.env.DB_HOST.includes('railway')) {
   dbConfig.ssl = { rejectUnauthorized: false };
 }
 
