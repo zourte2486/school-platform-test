@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 
 // Railway connection configuration with performance optimizations
-const dbConfig = {
+const dbConfig: any = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
@@ -13,8 +13,10 @@ const dbConfig = {
   acquireTimeout: 60000, // 60 seconds
   timeout: 60000, // 60 seconds
   reconnect: true,
-  // Add SSL configuration for Railway
-  ssl: process.env.DB_HOST?.includes('railway') ? { rejectUnauthorized: false } : false,
+  // Only add SSL if Railway is detected
+  ...(process.env.DB_HOST?.includes('railway') && {
+    ssl: { rejectUnauthorized: false },
+  }),
   // Performance optimizations
   multipleStatements: false,
   dateStrings: true,
