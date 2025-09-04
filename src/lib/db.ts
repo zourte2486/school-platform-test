@@ -1,7 +1,7 @@
-import mysql from 'mysql2/promise';
+import mysql, { PoolOptions } from 'mysql2/promise';
 
 // Railway connection configuration with performance optimizations
-const dbConfig: any = {
+const dbConfig: PoolOptions = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
@@ -12,17 +12,17 @@ const dbConfig: any = {
   queueLimit: 0,
   acquireTimeout: 60000, // 60 seconds
   timeout: 60000, // 60 seconds
-  reconnect: true,
-  // Only add SSL if Railway is detected
-  ...(process.env.DB_HOST?.includes('railway') && {
-    ssl: { rejectUnauthorized: false },
-  }),
   // Performance optimizations
   multipleStatements: false,
   dateStrings: true,
   supportBigNumbers: true,
   bigNumberStrings: true,
 };
+
+// ✅ Only add SSL if Railway is detected
+if (process.env.DB_HOST?.includes('railway')) {
+  dbConfig.ssl = { rejectUnauthorized: false };
+}
 
 const pool = mysql.createPool(dbConfig);
 
