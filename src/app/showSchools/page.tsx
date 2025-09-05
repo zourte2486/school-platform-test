@@ -149,19 +149,21 @@ export default function ShowSchools() {
           <Link 
             href="/addSchool" 
             onClick={() => setIsNavigating(true)}
-            className={`btn-primary hover-lift group ${isNavigating ? 'opacity-75 cursor-not-allowed' : ''}`}
+            className={`inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group ${isNavigating ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
             {isNavigating ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Loading...
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                <span className="text-lg">Loading...</span>
               </>
             ) : (
               <>
-                <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-                Add New School
+                <div className="w-6 h-6 mr-3 bg-white/20 rounded-lg flex items-center justify-center group-hover:bg-white/30 transition-colors duration-200">
+                  <svg className="w-4 h-4 text-white group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+                <span className="text-lg font-bold">Add New School</span>
               </>
             )}
           </Link>
@@ -178,12 +180,14 @@ export default function ShowSchools() {
             </p>
             <Link 
               href="/addSchool"
-              className="btn-primary hover-lift group"
+              className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-110 transition-all duration-300 group"
             >
-              <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add First School
+              <div className="w-8 h-8 mr-4 bg-white/25 rounded-xl flex items-center justify-center group-hover:bg-white/35 transition-colors duration-200">
+                <svg className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <span className="group-hover:tracking-wide transition-all duration-300">Add First School</span>
             </Link>
           </div>
         ) : (
