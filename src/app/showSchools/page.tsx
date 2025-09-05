@@ -269,7 +269,12 @@ export default function ShowSchools() {
                     
                     <div className="flex items-center justify-between text-xs text-gray-400">
                       <span>Added:</span>
-                      <span>{new Date(school.created_at).toLocaleDateString()}</span>
+                      <span>
+                        {school.created_at && school.created_at !== '1970-01-01T00:00:00.000Z' 
+                          ? new Date(school.created_at).toLocaleDateString()
+                          : 'Recently added'
+                        }
+                      </span>
                     </div>
                     
                     <div className="pt-3 border-t border-gray-100">
